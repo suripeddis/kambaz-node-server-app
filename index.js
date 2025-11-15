@@ -24,9 +24,10 @@ const sessionOptions = {
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false,
+    secure: true,  // Change to true for production
     httpOnly: true,
-    sameSite: 'lax'
+    sameSite: 'none',  // Change to 'none' for cross-site
+    maxAge: 24 * 60 * 60 * 1000  // Add 24 hours
   }
 };
 
