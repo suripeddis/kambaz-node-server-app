@@ -1,7 +1,17 @@
-import courses from "./courses.js";
-import modules from "./modules.js";
-import assignments from "./assignment.js";
-import users from "./users.js";
-import enrollments from "./enrollments.js";
+// Kambaz/Database/index.js
+import { MongoClient } from "mongodb";
 
-export default { courses, modules, assignments, users, enrollments };
+const client = new MongoClient("mongodb://127.0.0.1:27017");
+
+let db;
+
+async function connect() {
+  if (!db) {
+    await client.connect();
+    db = client.db("kambaz");   // your database name in Compass
+    console.log("Connected to MongoDB → kambaz database");
+  }
+  return db;
+}
+
+export default await connect();

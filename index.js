@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import session from "express-session";
+import mongoose from "mongoose";  
 import db from "./Kambaz/Database/index.js";
 import UserRoutes from "./Kambaz/Users/routes.js";
 import Lab5 from "./Lab5/index.js";
@@ -9,6 +10,12 @@ import Hello from "./Hello.js";
 import CourseRoutes from "./Kambaz/Courses/routes.js";
 import ModuleRoutes from "./Kambaz/Modules/routes.js";
 import AssignmentRoutes from "./Kambaz/Assignments/routes.js";
+
+const CONNECTION_STRING =
+  process.env.DATABASE_CONNECTION_STRING ||
+  "mongodb://127.0.0.1:27017/kambaz";
+
+mongoose.connect(CONNECTION_STRING);
 
 const app = express();
 
@@ -24,17 +31,17 @@ const sessionOptions = {
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: true,  // Change to true for production
+    secure: true, 
     httpOnly: true,
-    sameSite: 'none',  // Change to 'none' for cross-site
-    maxAge: 24 * 60 * 60 * 1000  // Add 24 hours
-  }
+    sameSite: "none", 
+    maxAge: 24 * 60 * 60 * 1000,
+  },
 };
 
 app.use(session(sessionOptions));
 app.use(express.json());
 
-UserRoutes(app, db);  
+UserRoutes(app, db);
 Lab5(app);
 Hello(app);
 CourseRoutes(app, db);
