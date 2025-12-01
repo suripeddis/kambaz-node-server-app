@@ -24,7 +24,8 @@ app.use(
     credentials: true,
     origin: [
       "http://localhost:3000",
-      "https://kambaz-next-6567c8jp5-saumya-suripeddis-projects.vercel.app"
+      "https://kambaz-next-6567c8jp5-saumya-suripeddis-projects.vercel.app",
+      "https://kambaz-next-js-saumyasuripeddi-5320-saumya-suripeddis-projects.vercel.app"
     ],
   })
 );
@@ -34,9 +35,9 @@ const sessionOptions = {
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false,  // Changed to false for local development
+    secure: false,
     httpOnly: true,
-    sameSite: "lax",  // Changed from "none" to "lax"
+    sameSite: "lax",
     maxAge: 24 * 60 * 60 * 1000,
   },
 };
