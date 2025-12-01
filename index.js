@@ -22,7 +22,10 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "https://kambaz-next-6567c8jp5-saumya-suripeddis-projects.vercel.app"
+    ],
   })
 );
 
@@ -31,9 +34,9 @@ const sessionOptions = {
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: true, 
+    secure: false,  // Changed to false for local development
     httpOnly: true,
-    sameSite: "none", 
+    sameSite: "lax",  // Changed from "none" to "lax"
     maxAge: 24 * 60 * 60 * 1000,
   },
 };

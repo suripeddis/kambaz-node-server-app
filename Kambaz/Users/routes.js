@@ -1,9 +1,12 @@
 import UsersDao from "./dao.js";
 
-export default function UserRoutes(app) {
+export default function UserRoutes(app) {  // Make sure "export default" is here!
   const dao = UsersDao();
 
   const signup = async (req, res) => {
+    console.log("=== SIGNUP ATTEMPT ===");
+    console.log("Request body:", req.body);
+    
     const existing = await dao.findUserByUsername(req.body.username);
     if (existing) {
       res.status(400).json({ message: "Username already taken" });
@@ -15,13 +18,27 @@ export default function UserRoutes(app) {
   };
 
   const signin = async (req, res) => {
+    console.log("=== SIGNIN ATTEMPT ===");
+    console.log("Request body:", req.body);
+    console.log("Username:", req.body.username);
+    console.log("Password:", req.body.password);
+    
     const { username, password } = req.body;
-    const currentUser = await dao.findUserByCredentials(username, password);
-    if (currentUser) {
-      req.session["currentUser"] = currentUser;
-      res.json(currentUser);
-    } else {
-      res.status(401).json({ message: "Unable to login" });
+    
+    try {
+      const currentUser = await dao.findUserByCredentials(username, password);
+      console.log("Found user:", currentUser);
+      
+      if (currentUser) {
+        req.session["currentUser"] = currentUser;
+        res.json(currentUser);
+      } else {
+        console.log("No user found - returning 401");
+        res.status(401).json({ message: "Unable to login" });
+      }
+    } catch (error) {
+      console.error("Signin error:", error);
+      res.status(500).json({ message: error.message });
     }
   };
 

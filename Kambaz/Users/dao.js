@@ -11,11 +11,15 @@ export default function UsersDao() {
 
   const findUserById = (userId) => UserModel.findById(userId);
 
-  const findUserByUsername = (username) =>
-    UserModel.findOne({ username });
+  const findUserByUsername = (username) => {
+    console.log("DAO: Finding user by username:", username);
+    return UserModel.findOne({ username });
+  };
 
-  const findUserByCredentials = (username, password) =>
-    UserModel.findOne({ username, password });
+  const findUserByCredentials = (username, password) => {
+    console.log("DAO: Finding user by credentials:", { username, password });
+    return UserModel.findOne({ username, password });
+  };
 
   const findUsersByRole = (role) =>
     UserModel.find({ role });
