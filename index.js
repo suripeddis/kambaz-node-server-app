@@ -10,12 +10,21 @@ import Hello from "./Hello.js";
 import CourseRoutes from "./Kambaz/Courses/routes.js";
 import ModuleRoutes from "./Kambaz/Modules/routes.js";
 import AssignmentRoutes from "./Kambaz/Assignments/routes.js";
+import CourseModel from "./Kambaz/Courses/model.js";
 
 const CONNECTION_STRING =
   process.env.DATABASE_CONNECTION_STRING ||
   "mongodb://127.0.0.1:27017/kambaz";
 
 mongoose.connect(CONNECTION_STRING);
+
+mongoose.connection.on('connected', () => {
+  console.log('✅ Mongoose connected to MongoDB');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.log('❌ Mongoose connection error:', err);
+});
 
 const app = express();
 
@@ -44,6 +53,12 @@ const sessionOptions = {
 
 app.use(session(sessionOptions));
 app.use(express.json());
+
+app.get('/test', async (req, res) => {
+  const courses = await CourseModel.find();
+  console.log('Test route found:', courses.length);
+  res.json(courses);
+});
 
 UserRoutes(app, db);
 Lab5(app);
