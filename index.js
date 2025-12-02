@@ -34,7 +34,8 @@ app.use(
     origin: [
       "http://localhost:3000",
       "https://kambaz-next-6567c8jp5-saumya-suripeddis-projects.vercel.app",
-      "https://kambaz-next-js-saumyasuripeddi-5320-saumya-suripeddis-projects.vercel.app"
+      "https://kambaz-next-js-saumyasuripeddi-5320-saumya-suripeddis-projects.vercel.app",
+      "https://kambaz-next-609pu5j25-saumya-suripeddis-projects.vercel.app"
     ],
   })
 );
