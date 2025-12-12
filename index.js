@@ -15,7 +15,10 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    origin: [
+      process.env.CLIENT_URL || "http://localhost:3000",
+      /\.vercel\.app$/  
+    ],
   })
 );
 
@@ -24,10 +27,9 @@ const sessionOptions = {
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: true,  // Change to true for production
     httpOnly: true,
-    sameSite: 'none',  // Change to 'none' for cross-site
-    maxAge: 24 * 60 * 60 * 1000  // Add 24 hours
+    sameSite: 'none',  
+    maxAge: 24 * 60 * 60 * 1000 
   }
 };
 
