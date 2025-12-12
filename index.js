@@ -28,27 +28,33 @@ mongoose.connection.on('error', (err) => {
 
 const app = express();
 
+app.set("trust proxy", 1);
+
 app.use(
   cors({
     credentials: true,
     origin: [
       "http://localhost:3000",
-      /\.vercel\.app$/  
+      /\.vercel\.app$/,
     ],
   })
 );
 
-const sessionOptions = {
-  secret: process.env.SESSION_SECRET || "kambaz",
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: true,  
-    httpOnly: true,
-    sameSite: 'none',  
-    maxAge: 24 * 60 * 60 * 1000
-  }
-};
+app.use(express.json());
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "kambaz",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: true,
+      httpOnly: true,
+      sameSite: "none",
+      maxAge: 24 * 60 * 60 * 1000,
+    },
+  })
+);
 app.use(session(sessionOptions));
 app.use(express.json());
 
