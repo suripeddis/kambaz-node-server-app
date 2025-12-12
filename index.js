@@ -2,7 +2,8 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import session from "express-session";
-import mongoose from "mongoose";  
+import mongoose from "mongoose";
+
 import db from "./Kambaz/Database/index.js";
 import UserRoutes from "./Kambaz/Users/routes.js";
 import Lab5 from "./Lab5/index.js";
@@ -18,12 +19,12 @@ const CONNECTION_STRING =
 
 mongoose.connect(CONNECTION_STRING);
 
-mongoose.connection.on('connected', () => {
-  console.log('✅ Mongoose connected to MongoDB');
+mongoose.connection.on("connected", () => {
+  console.log("Mongoose connected");
 });
 
-mongoose.connection.on('error', (err) => {
-  console.log('❌ Mongoose connection error:', err);
+mongoose.connection.on("error", (err) => {
+  console.log("Mongoose error:", err);
 });
 
 const app = express();
@@ -32,11 +33,11 @@ app.set("trust proxy", 1);
 
 app.use(
   cors({
-    credentials: true,
     origin: [
       "http://localhost:3000",
       /\.vercel\.app$/,
     ],
+    credentials: true,
   })
 );
 
@@ -55,12 +56,9 @@ app.use(
     },
   })
 );
-app.use(session(sessionOptions));
-app.use(express.json());
 
-app.get('/test', async (req, res) => {
+app.get("/test", async (req, res) => {
   const courses = await CourseModel.find();
-  console.log('Test route found:', courses.length);
   res.json(courses);
 });
 
@@ -72,7 +70,6 @@ ModuleRoutes(app, db);
 AssignmentRoutes(app, db);
 
 const PORT = process.env.PORT || 4000;
-
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
